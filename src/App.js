@@ -1,41 +1,26 @@
-import React, { useEffect, useState } from "react";
-import shortid from "shortid";
+import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Artist from "./routes/Artist";
+import Track from "./routes/Track";
+import Home from "./routes/Home";
 
-const KEY = process.env.REACT_APP_SECRET_KEY;
-
-function App() {
-    const [loading, setLoading] = useState(true);
-    const [info, setInfo] = useState([]);
-
-    // fetch data
-    const getInfo = async () => {
-        const json = await (
-            await fetch(
-                `https://ws.audioscrobbler.com/2.0/?method=track.search&track=Believe&api_key=${KEY}&format=json`
-            )
-        ).json();
-
-        setInfo(json.results.trackmatches.track);
-        setLoading(false);
-    };
-
-    useEffect(() => {
-        getInfo();
-    }, []);
-    console.log(info);
-
-    const list = info.map((i) => {
-        return (
-            <div key={shortid.generate()}>
-                <h3>Title: {i.name}</h3>
-                <h5>Artist: {i.artist}</h5>
-                <h6>URL: {i.url}</h6>
-                <br />
-            </div>
-        );
-    });
-
-    return <div>{loading ? <h1>Now Loading...</h1> : list}</div>;
-}
+const App = () => {
+    // return <Home />;
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route path="/:artist/:track" element={<Track />} />
+                <Route path="/:artist" element={<Artist />} />
+                <Route path="/" element={<Home />} />
+            </Routes>
+        </BrowserRouter>
+    );
+};
 
 export default App;
+
+/**
+ * Routes
+ *  : Route를 탐색하고, 찾으면 컴포넌트를 렌더링함
+ *  : Routes의 자식은 Route여야하며, element로 접근함
+ */
