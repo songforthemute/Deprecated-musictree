@@ -8,17 +8,18 @@ const Artist = () => {
     const [artistInfo, setArtistInfo] = useState([]);
 
     useEffect(() => {
-        const getArtist = async () => {
+        const getArtistInfo = async () => {
             const json = await (
                 await fetch(
                     `http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${artist}&api_key=${process.env.REACT_APP_KEY}&format=json`
                 )
             ).json();
+
             setArtistInfo(json);
             setLoading(false);
         };
 
-        getArtist();
+        getArtistInfo();
     }, [artist]);
 
     console.log(artistInfo);
@@ -43,8 +44,8 @@ const Artist = () => {
                         ))}
                     </h5>
                     <p>
-                        {artistInfo.artist.bio.summary.length > 250
-                            ? artistInfo.artist.bio.summary.slice(0, 250) +
+                        {artistInfo.artist.bio.summary.length > 100
+                            ? artistInfo.artist.bio.summary.slice(0, 100) +
                               "..."
                             : artistInfo.artist.bio.summary}
                     </p>
