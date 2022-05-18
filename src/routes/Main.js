@@ -41,6 +41,7 @@ const Main = () => {
             ) : (
                 <div>
                     <h1>Now Top Tracks!</h1>
+                    <h3>Search</h3>
                     {homeChart}
                 </div>
             )}
