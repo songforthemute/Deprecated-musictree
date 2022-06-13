@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import HomeChart from "../components/HomeChart";
 
 const Main = () => {
@@ -40,7 +41,9 @@ const Main = () => {
             ) : (
                 <div>
                     <h1>Now Top Tracks!</h1>
-                    <h3>Search</h3>
+                    <Link to="/search">
+                        <h3>Search</h3>
+                    </Link>
                     {homeChart}
                 </div>
             )}

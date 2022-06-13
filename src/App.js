@@ -4,6 +4,7 @@ import Artist from "./routes/Artist";
 import Track from "./routes/Track";
 import Home from "./routes/Home";
 import Main from "./routes/Main";
+import Search from "./routes/Search";
 
 const App = () => {
     // return <Home />;
@@ -15,6 +16,7 @@ const App = () => {
                 <Route path="/" element={<Home />} />
                 {/* <Route path="/search/method=:method/content=:content" element={<Home />} />
                 <Route path="/" element={<Main />} /> */}
+                <Route path="/search" element={<Search />} />
                 <Route path="/main" element={<Main />} />
             </Routes>
         </BrowserRouter>
