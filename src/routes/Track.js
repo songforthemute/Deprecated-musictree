@@ -21,7 +21,7 @@ const Track = () => {
         getTrackInfo();
     }, [artist, track]);
 
-    console.log(trackInfo);
+    console.log("trackInfo: ", trackInfo);
 
     const durationConvertor = (d) => {
         let min = Math.round(d / 1000 / 60);
@@ -56,11 +56,14 @@ const Track = () => {
                     <h4>Playcount: {trackInfo.track.playcount}</h4>
                     <h4>Listeners: {trackInfo.track.listeners}</h4>
                     <br />
-                    <p>
-                        {trackInfo.track.wiki.summary.length > 100
-                            ? trackInfo.track.wiki.summary.slice(0, 100) + "..."
-                            : trackInfo.track.wiki.summary}
-                    </p>
+                    {trackInfo.track.wiki && (
+                        <p>
+                            {trackInfo.track.wiki.summary.length > 100
+                                ? trackInfo.track.wiki.summary.slice(0, 100) +
+                                  "..."
+                                : trackInfo.track.wiki.summary}
+                        </p>
+                    )}
                 </div>
             )}
         </div>

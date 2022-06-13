@@ -2,14 +2,16 @@ import React from "react";
 import Proptypes from "proptypes";
 import { Link } from "react-router-dom";
 
-const SearchResults = ({ name, artist, listeners, url }) => {
+const SearchResults = ({ track, artist, listeners, url }) => {
     return (
         <div>
-            <Link to={`/${artist}/${name}`}>
-                <h2>{name}</h2>
-            </Link>
+            {track !== artist && (
+                <Link to={`/${artist}/${track}`}>
+                    <h3>{track}</h3>
+                </Link>
+            )}
             <Link to={`/${artist}`}>
-                <h4>{artist}</h4>
+                <h3>{artist}</h3>
             </Link>
             <p>{listeners}</p>
             <h6>{url}</h6>
@@ -19,10 +21,10 @@ const SearchResults = ({ name, artist, listeners, url }) => {
 };
 
 SearchResults.propTypes = {
-    name: Proptypes.string.isRequired,
+    track: Proptypes.string,
     artist: Proptypes.string.isRequired,
     listeners: Proptypes.string.isRequired,
-    url: Proptypes.string.isRequired,
+    url: Proptypes.string,
 };
 
 export default SearchResults;
