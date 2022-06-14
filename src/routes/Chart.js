@@ -7,13 +7,14 @@ const Chart = () => {
     const [country, setCountry] = useState("Korea,+Republic+of");
     const [page, setPage] = useState(1);
     const [option, setOption] = useState("track");
-    const [loading, setLoading] = useState(true);
     const [total, setTotal] = useState(0);
     const [lastPage, setLastPage] = useState(0);
+    const [loading, setLoading] = useState(true);
 
     // 초기 차트 및 차트 불러오기
     useEffect(() => {
         const getChart = async () => {
+            setLoading(true);
             const json = await (
                 await fetch(
                     `http://ws.audioscrobbler.com/2.0/?method=geo.gettop${option}s&country=${country}&limit=${limit}&page=${page}&api_key=${process.env.REACT_APP_KEY}&format=json`
@@ -47,10 +48,34 @@ const Chart = () => {
     console.log(dataset);
 
     // 페이지 컨트롤러
-    const onClickNext = () => setPage(page + 1);
-    const onClickBefore = () => setPage(page - 1);
-    const onClickFirst = () => setPage(1);
-    const onClickLast = () => setPage(lastPage);
+    const onClickNext = () => {
+        if (page === lastPage) {
+            alert("마지막 페이지입니다.");
+            return;
+        }
+        setPage((page) => page + 1);
+    };
+    const onClickBefore = () => {
+        if (page === 1) {
+            alert("첫 페이지입니다.");
+            return;
+        }
+        setPage((page) => page - 1);
+    };
+    const onClickFirst = () => {
+        if (page === 1) {
+            alert("첫 페이지입니다.");
+            return;
+        }
+        setPage(1);
+    };
+    const onClickLast = () => {
+        if (page === lastPage) {
+            alert("마지막 페이지입니다.");
+            return;
+        }
+        setPage(lastPage);
+    };
 
     return (
         <div>
@@ -68,7 +93,7 @@ const Chart = () => {
                                         ? data.artist.name
                                         : data.name
                                 }
-                                listeners={data.listeners}
+                                listeners={data}
                                 rank={(page - 1) * limit + (index + 1)}
                                 // imgUrl={data.image[0]["#text"]}
                             />
@@ -88,7 +113,9 @@ const Chart = () => {
                                 </span>
                             </li>
                             <li>
-                                <span>{page}</span>
+                                <span>
+                                    {page} / {lastPage}
+                                </span>
                             </li>
                             <li onClick={onClickNext}>
                                 <span className="material-symbols-outlined">
