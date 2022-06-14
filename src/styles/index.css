@@ -1,0 +1,64 @@
+@import "https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css";
+
+* {
+    box-sizing: border-box;
+}
+
+input {
+    all: unset;
+    box-sizing: border-box;
+    appearance: none;
+}
+
+body {
+    background-color: #fefefe;
+    font-family: "Noto Sans KR", sans-serif;
+    font-size: 14px;
+    color: #222222;
+}
+
+nav li {
+    cursor: pointer;
+}
+
+nav li:hover {
+    transition: all 0.3s ease-in-out;
+    color: #222222;
+}
+
+button {
+    background-color: #fefefe;
+    color: #222222;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+form {
+    width: 100%;
+}
+
+.main {
+    max-width: 890px;
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    width: 100%;
+    min-width: 240px;
+    max-width: 320px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Google Fonts */
+.material-symbols-outlined {
+    font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 100, "opsz" 48;
+    color: #ff885d;
+}
