@@ -7,19 +7,24 @@ const Nav = () => {
             <ul className="nav">
                 <li>
                     <Link to="/" className="nav__homeBtn">
-                        <span className="material-icons-outlined">home</span>
+                        <span className="material-symbols-outlined">home</span>
+                        <span>Home</span>
                     </Link>
                 </li>
                 <li>
                     <Link to="/search" className="nav__searchBtn">
-                        <span className="material-icons-outlined">search</span>
+                        <span className="material-symbols-outlined">
+                            search
+                        </span>
+                        <span>Search</span>
                     </Link>
                 </li>
                 <li>
                     <Link to="/chart" className="nav__chartBtn">
-                        <span className="material-icons-outlined">
+                        <span className="material-symbols-outlined">
                             bar_chart
                         </span>
+                        <span>Chart</span>
                     </Link>
                 </li>
             </ul>
