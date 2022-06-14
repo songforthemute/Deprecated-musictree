@@ -2,7 +2,7 @@ import React from "react";
 import Proptypes from "proptypes";
 import { Link } from "react-router-dom";
 
-const SearchResults = ({ track, artist, listeners, imgUrl, rank }) => {
+const SearchResults = ({ track, artist, imgUrl, rank }) => {
     return (
         <div>
             <span>{rank}. </span>
@@ -17,8 +17,8 @@ const SearchResults = ({ track, artist, listeners, imgUrl, rank }) => {
             <Link to={`/${artist}`}>
                 <span>{artist}</span>
             </Link>
-            <p>{listeners}</p>
             {imgUrl && <img alt="cover" src={imgUrl} />}
+            <hr />
             <br />
         </div>
     );
@@ -27,8 +27,8 @@ const SearchResults = ({ track, artist, listeners, imgUrl, rank }) => {
 SearchResults.propTypes = {
     track: Proptypes.string,
     artist: Proptypes.string.isRequired,
-    listeners: Proptypes.string.isRequired,
-    url: Proptypes.string,
+    imgUrl: Proptypes.string,
+    rank: Proptypes.number,
 };
 
 export default SearchResults;
