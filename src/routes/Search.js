@@ -1,70 +1,85 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SearchResults from "../components/SearchResults";
 
+// useEffect를 사용해보자. - useEffect는 디펜던시가 업데이트될때만 렌더를 도와준다.
 const Search = () => {
-    const [searchInfo, setSearchInfo] = useState([]);
-    const [keyword, setKeyword] = useState("");
-    const [option, setOption] = useState("artist");
-    const [limit, setLimit] = useState(10);
-    const [page, setPage] = useState(1);
-    const [total, setTotal] = useState(0);
-    const [lastPage, setLastPage] = useState(0);
     const [loading, setLoading] = useState(true);
+    const [searchInfo, setSearchInfo] = useState([]);
+    const [page, setPage] = useState(1);
+    const [buffer, setBuffer] = useState({
+        keyword: "",
+        limit: "10",
+        option: "none",
+    });
+    const [inputs, setInputs] = useState({
+        keyword: "",
+        limit: "10",
+        option: "none",
+    });
+    const [meta, setMeta] = useState({
+        lastPage: 1,
+        total: 0,
+    });
 
-    // 검색 폼 제출시 ajax 요청
-    const getSearch = async () => {
-        setLoading(true);
-        const json = await (
-            await fetch(
-                `http://ws.audioscrobbler.com/2.0/?method=${option}.search&${option}=${keyword}&limit=${limit}&page=${page}&api_key=${process.env.REACT_APP_KEY}&format=json`
-            )
-        ).json();
+    useEffect(() => {
+        // 검색 폼 제출시 ajax 요청
+        const getSearch = async () => {
+            setLoading(true);
+            const json = await (
+                await fetch(
+                    `http://ws.audioscrobbler.com/2.0/?method=${inputs.option}.search&${inputs.option}=${inputs.keyword}&limit=${inputs.limit}&page=${page}&api_key=${process.env.REACT_APP_KEY}&format=json`
+                )
+            ).json();
 
-        setSearchInfo(
-            option === "artist"
-                ? json.results.artistmatches.artist
-                : json.results.trackmatches.track
-        );
+            setSearchInfo(
+                inputs.option === "artist"
+                    ? json.results.artistmatches.artist
+                    : json.results.trackmatches.track
+            );
 
-        // 토탈 검색 결과수 & 마지막 페이지 계산
-        setTotal(json.results["opensearch:totalResults"]);
-        setLastPage(Math.ceil(json.results["opensearch:totalResults"] / limit));
-        console.log("검색시작위치: ", json.results["opensearch:startIndex"]);
-        setLoading(false);
-        console.log("현재 페이지: ", page);
-        console.log("현재 검색단위수: ", limit);
-    };
+            // 토탈 검색 결과수 & 마지막 페이지 계산
+            setMeta({
+                total: json.results["opensearch:totalResults"],
+                lastPage: Math.ceil(
+                    json.results["opensearch:totalResults"] / inputs.limit
+                ),
+            });
+
+            setLoading(false);
+            console.log("현재 페이지: ", page);
+            console.log("현재 검색단위수: ", inputs.limit);
+        };
+
+        if (inputs.keyword !== "" && inputs.option !== "none") getSearch();
+    }, [inputs, page]);
 
     // 검색 폼 제출
     const onSubmit = (e) => {
         e.preventDefault();
-        setPage(1);
-        getSearch();
+        if (page !== 1) setPage(1);
+        setInputs(buffer);
     };
 
-    // select - option event
-    const onChangeOption = (e) => setOption(e.target.value);
-    const onChangeLimit = (e) => setLimit(Number(e.target.value));
-
-    // input(keyword)
-    const onChangeInput = (e) => setKeyword(e.target.value);
+    // select - option & limit & keyword
+    const onChangeBuffer = (e) => {
+        const { name, value } = e.target;
+        setBuffer({ ...buffer, [name]: value });
+    };
 
     // 페이지 컨트롤러
     const onClickNext = () => {
-        if (page === lastPage) {
+        if (page === meta.lastPage) {
             alert("마지막 페이지입니다.");
             return;
         }
-        setPage((page) => page + 1);
-        getSearch();
+        setPage(page + 1);
     };
     const onClickBefore = () => {
         if (page === 1) {
             alert("첫 페이지입니다.");
             return;
         }
-        setPage((page) => page - 1);
-        getSearch();
+        setPage(page - 1);
     };
     const onClickFirst = () => {
         if (page === 1) {
@@ -72,15 +87,13 @@ const Search = () => {
             return;
         }
         setPage(1);
-        getSearch();
     };
     const onClickLast = () => {
-        if (page === lastPage) {
+        if (page === meta.lastPage) {
             alert("마지막 페이지입니다.");
             return;
         }
-        setPage(lastPage);
-        getSearch();
+        setPage(meta.lastPage);
     };
 
     return (
@@ -88,53 +101,81 @@ const Search = () => {
             {/* 검색 폼 */}
             <div>
                 <form onSubmit={onSubmit}>
-                    <label htmlFor="searchOption">검색</label>
+                    <label htmlFor="option">검색</label>
                     <select
-                        name="searchOption"
-                        id="searchOption"
-                        onChange={onChangeOption}
-                        value={option}
+                        name="option"
+                        id="option"
+                        onChange={onChangeBuffer}
+                        value={buffer.option}
                     >
-                        <option value="artist">Artist</option>
-                        <option value="track">Track</option>
-                        {/* <option value="album">Album</option> */}
+                        <option key="none" value="none">
+                            검색 옵션
+                        </option>
+                        <option key="artist" value="artist">
+                            Artist
+                        </option>
+                        <option key="track" value="track">
+                            Track
+                        </option>
                     </select>
                     <select
-                        name="searchCount"
-                        onChange={onChangeLimit}
-                        value={Number(limit)}
+                        name="limit"
+                        onChange={onChangeBuffer}
+                        value={buffer.limit}
                     >
-                        <option value="10">10개씩 보기</option>
-                        <option value="15">15개씩 보기</option>
-                        <option value="20">20개씩 보기</option>
-                        <option value="25">25개씩 보기</option>
-                        <option value="30">30개씩 보기</option>
+                        <option key="10" value="10">
+                            10개씩 보기
+                        </option>
+                        <option key="15" value="15">
+                            15개씩 보기
+                        </option>
+                        <option key="20" value="20">
+                            20개씩 보기
+                        </option>
+                        <option key="25" value="25">
+                            25개씩 보기
+                        </option>
+                        <option key="30" value="30">
+                            30개씩 보기
+                        </option>
                     </select>
                     <input
                         type="text"
                         name="keyword"
-                        value={keyword}
-                        onChange={onChangeInput}
+                        value={buffer.keyword}
+                        onChange={onChangeBuffer}
                         placeholder="검색어를 입력해주세요."
                     />
                     <input type="submit" value="&#128269;" />
                 </form>
             </div>
             {loading ? (
-                <h1>{keyword.length ? "Now Loading..." : ""}</h1>
+                <h1>{buffer.keyword.length ? "Now Loading..." : ""}</h1>
             ) : (
                 <>
                     {/* 검색 결과 */}
                     <div>
-                        {searchInfo.map((info, index) => (
-                            <SearchResults
-                                key={index}
-                                artist={info.artist || info.name}
-                                track={info.name}
-                                imgUrl={null}
-                                rank={null}
-                            />
-                        ))}
+                        {searchInfo.length > inputs.limit
+                            ? searchInfo
+                                  .slice(searchInfo.length - inputs.limit)
+                                  .map((info, index) => (
+                                      <SearchResults
+                                          key={index}
+                                          artist={info.artist || info.name}
+                                          track={info.name}
+                                          imgUrl={null}
+                                          rank={null}
+                                      />
+                                  ))
+                            : searchInfo.map((info, index) => (
+                                  <SearchResults
+                                      key={index}
+                                      artist={info.artist || info.name}
+                                      track={info.name}
+                                      imgUrl={null}
+                                      rank={null}
+                                  />
+                              ))}
                     </div>
                     {/* 하단 네비게이터 */}
                     <nav>
@@ -151,7 +192,7 @@ const Search = () => {
                             </li>
                             <li>
                                 <span>
-                                    {page} / {lastPage}
+                                    {page} / {meta.lastPage}
                                 </span>
                             </li>
                             <li onClick={onClickNext}>
