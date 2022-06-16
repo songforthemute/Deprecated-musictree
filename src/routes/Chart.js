@@ -3,13 +3,14 @@ import SearchResults from "../components/SearchResults";
 
 const Chart = () => {
     const [dataset, setDataset] = useState([]);
-    const [limit, setLimit] = useState(20);
-    const [country, setCountry] = useState("Korea,+Republic+of");
     const [page, setPage] = useState(1);
+    const [country, setCountry] = useState("Korea,+Republic+of");
     const [option, setOption] = useState("track");
-    const [total, setTotal] = useState(0);
-    const [lastPage, setLastPage] = useState(0);
     const [loading, setLoading] = useState(true);
+    const [meta, setMeta] = useState({
+        lastPage: 1,
+        total: 0,
+    });
 
     // 초기 차트 및 차트 불러오기
     useEffect(() => {
@@ -17,39 +18,42 @@ const Chart = () => {
             setLoading(true);
             const json = await (
                 await fetch(
-                    `http://ws.audioscrobbler.com/2.0/?method=geo.gettop${option}s&country=${country}&limit=${limit}&page=${page}&api_key=${process.env.REACT_APP_KEY}&format=json`
+                    `http://ws.audioscrobbler.com/2.0/?method=geo.gettop${option}s&country=${country}&limit=20&page=${page}&api_key=${process.env.REACT_APP_KEY}&format=json`
                 )
             ).json();
             // 차트 데이터
-            setDataset(
-                option === "track" ? json.tracks.track : json.topartists.artist
-            );
-            // 차트 검색 결과 수
-            setTotal(
+            setDataset(json?.tracks?.track ?? json.topartists.artist);
+            // 차트 검색셜과 & 끝 페이지
+            setMeta(
                 option === "track"
-                    ? json.tracks["@attr"]["total"]
-                    : json.topartists["@attr"]["total"]
-            );
-            // 차트 끝 페이지
-            setLastPage(
-                option === "track"
-                    ? json.tracks["@attr"]["totalPages"]
-                    : json.topartists["@attr"]["totalPages"]
+                    ? {
+                          total: json.tracks["@attr"]["total"],
+                          lastPage: json.tracks["@attr"]["totalPages"],
+                      }
+                    : {
+                          total: json.topartists["@attr"]["total"],
+                          lastPage: json.topartists["@attr"]["totalPages"],
+                      }
             );
             setLoading(false);
-
-            // track => json.tracks.track
-            // artist => json.topartists.artist
         };
 
         getChart();
-    }, [option, country, limit, page]);
+    }, [option, country, page]);
 
-    console.log(dataset);
+    const onChangeCountry = (e) => {
+        setCountry(e.target.value);
+        setPage(1);
+    };
+
+    const onChangeOption = (e) => {
+        setOption(e.target.value);
+        setPage(1);
+    };
 
     // 페이지 컨트롤러
     const onClickNext = () => {
-        if (page === lastPage) {
+        if (page === meta.lastPage) {
             alert("마지막 페이지입니다.");
             return;
         }
@@ -70,11 +74,11 @@ const Chart = () => {
         setPage(1);
     };
     const onClickLast = () => {
-        if (page === lastPage) {
+        if (page === meta.lastPage) {
             alert("마지막 페이지입니다.");
             return;
         }
-        setPage(lastPage);
+        setPage(meta.lastPage);
     };
 
     return (
@@ -84,18 +88,55 @@ const Chart = () => {
             ) : (
                 <>
                     <div>
+                        <label htmlFor="option">검색</label>
+                        <select
+                            name="option"
+                            id="option"
+                            onChange={onChangeOption}
+                            value={option}
+                        >
+                            <option key="track" value="track">
+                                Track
+                            </option>
+                            <option key="artist" value="artist">
+                                Artist
+                            </option>
+                        </select>
+                        <label htmlFor="country">국가</label>
+                        <select
+                            name="country"
+                            id="country"
+                            onChange={onChangeCountry}
+                            value={country}
+                        >
+                            <option
+                                key="Korea,+Republic+of"
+                                value="Korea,+Republic+of"
+                            >
+                                한국
+                            </option>
+                            <option key="United+States" value="United+States">
+                                미국
+                            </option>
+                            <option key="United+Kingdom" value="United+Kingdom">
+                                영국
+                            </option>
+                            <option key="japan" value="japan">
+                                일본
+                            </option>
+                            <option key="spain" value="spain">
+                                스페인
+                            </option>
+                        </select>
+                    </div>
+                    <div>
                         {dataset.map((data, index) => (
                             <SearchResults
                                 key={index}
-                                track={option === "track" ? data.name : null}
-                                artist={
-                                    option === "track"
-                                        ? data.artist.name
-                                        : data.name
-                                }
+                                track={data?.name ?? null}
+                                artist={data?.artist?.name ?? data.name}
                                 listeners={data}
-                                rank={(page - 1) * limit + (index + 1)}
-                                // imgUrl={data.image[0]["#text"]}
+                                rank={(page - 1) * 20 + (index + 1)}
                             />
                         ))}
                     </div>
@@ -114,7 +155,7 @@ const Chart = () => {
                             </li>
                             <li>
                                 <span>
-                                    {page} / {lastPage}
+                                    {page} / {meta.lastPage}
                                 </span>
                             </li>
                             <li onClick={onClickNext}>
