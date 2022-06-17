@@ -5,28 +5,31 @@ const Nav = () => {
     return (
         <nav>
             <ul className="nav">
-                <li>
-                    <Link to="/" className="nav__homeBtn">
+                <li className="nav__logo">
+                    <img alt="logo" src="#" />
+                </li>
+                <Link to="/">
+                    <li className="nav__Btn">
                         <span className="material-symbols-outlined">home</span>
                         <span>Home</span>
-                    </Link>
-                </li>
-                <li>
-                    <Link to="/search" className="nav__searchBtn">
+                    </li>
+                </Link>
+                <Link to="/search">
+                    <li className="nav__Btn">
                         <span className="material-symbols-outlined">
                             search
                         </span>
                         <span>Search</span>
-                    </Link>
-                </li>
-                <li>
-                    <Link to="/chart" className="nav__chartBtn">
+                    </li>
+                </Link>
+                <Link to="/chart">
+                    <li className="nav__Btn">
                         <span className="material-symbols-outlined">
                             bar_chart
                         </span>
                         <span>Chart</span>
-                    </Link>
-                </li>
+                    </li>
+                </Link>
             </ul>
         </nav>
     );
