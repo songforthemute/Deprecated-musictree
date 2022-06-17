@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import SearchResults from "../components/SearchResults";
+import Loading from "../components/Loading";
 
 const Chart = () => {
     const [dataset, setDataset] = useState([]);
@@ -84,7 +85,7 @@ const Chart = () => {
     return (
         <div>
             {loading ? (
-                <h1>Now Loading...</h1>
+                <Loading />
             ) : (
                 <>
                     <div>
@@ -96,10 +97,10 @@ const Chart = () => {
                             value={option}
                         >
                             <option key="track" value="track">
-                                Track
+                                트랙명
                             </option>
                             <option key="artist" value="artist">
-                                Artist
+                                아티스트명
                             </option>
                         </select>
                         <label htmlFor="country">국가</label>

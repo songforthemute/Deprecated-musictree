@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import Loading from "../components/Loading";
 
 const Track = () => {
     const { artist, track } = useParams();
@@ -41,7 +42,7 @@ const Track = () => {
     return (
         <div>
             {loading ? (
-                <h1>Now Loading...</h1>
+                <Loading />
             ) : (
                 <div>
                     <img

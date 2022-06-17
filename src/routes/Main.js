@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import HomeChart from "../components/HomeChart";
+import Loading from "../components/Loading";
 
 const Main = () => {
     const [trackTop10, setTrackTop10] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    // 루트 페이지 차트 top10 리스트 받아오기
     useEffect(() => {
         const getTopTrack = async () => {
             const json = await (
@@ -22,22 +24,21 @@ const Main = () => {
 
     // console.log(trackTop10);
 
-    const homeChart = trackTop10.map((track, index) => {
-        return (
-            <HomeChart
-                key={index}
-                rank={index + 1}
-                track={track.name}
-                artist={track.artist.name}
-                imgSrc={track.image[2]["#text"]}
-            />
-        );
-    });
+    // 루트 페이지 차트 top10 컴포넌트
+    const homeChart = trackTop10.map((track, index) => (
+        <HomeChart
+            key={index}
+            rank={index + 1}
+            track={track.name}
+            artist={track.artist.name}
+            imgSrc={track.image[2]["#text"]}
+        />
+    ));
 
     return (
         <div>
             {loading ? (
-                <h1>Now Loading...</h1>
+                <Loading />
             ) : (
                 <div>
                     <h1>Now Top Tracks!</h1>

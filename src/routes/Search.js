@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Loading from "../components/Loading";
 import SearchResults from "../components/SearchResults";
 
 // useEffect를 사용해보자. - useEffect는 디펜던시가 업데이트될때만 렌더를 도와준다.
@@ -109,13 +110,13 @@ const Search = () => {
                         value={buffer.option}
                     >
                         <option key="none" value="none">
-                            검색 옵션
-                        </option>
-                        <option key="artist" value="artist">
-                            Artist
+                            - 검색 옵션 -
                         </option>
                         <option key="track" value="track">
-                            Track
+                            트랙명
+                        </option>
+                        <option key="artist" value="artist">
+                            아티스트명
                         </option>
                     </select>
                     <select
@@ -150,7 +151,11 @@ const Search = () => {
                 </form>
             </div>
             {loading ? (
-                <h1>{buffer.keyword.length ? "Now Loading..." : ""}</h1>
+                inputs.option !== "none" && inputs.keyword.length ? (
+                    <Loading />
+                ) : (
+                    <div>검색해주세요.</div>
+                )
             ) : (
                 <>
                     {/* 검색 결과 */}
