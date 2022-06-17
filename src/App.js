@@ -13,13 +13,15 @@ const App = () => {
         <BrowserRouter>
             <Nav />
             <div className="main">
-                <Routes>
-                    <Route path="/:artist/:track" element={<Track />} />
-                    <Route path="/:artist" element={<Artist />} />
-                    <Route path="/search" element={<Search />} />
-                    <Route path="/chart" element={<Chart />} />
-                    <Route path="/" element={<Main />} />
-                </Routes>
+                <div className="container">
+                    <Routes>
+                        <Route path="/:artist/:track" element={<Track />} />
+                        <Route path="/:artist" element={<Artist />} />
+                        <Route path="/search" element={<Search />} />
+                        <Route path="/chart" element={<Chart />} />
+                        <Route path="/" element={<Main />} />
+                    </Routes>
+                </div>
             </div>
             <Footer />
         </BrowserRouter>

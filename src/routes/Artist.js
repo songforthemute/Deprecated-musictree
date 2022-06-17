@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import shortid from "shortid";
+import Loading from "../components/Loading";
 
 const Artist = () => {
     const { artist } = useParams();
@@ -15,43 +15,65 @@ const Artist = () => {
                 )
             ).json();
 
-            setArtistInfo(json);
+            setArtistInfo(json.artist);
             setLoading(false);
         };
 
         getArtistInfo();
     }, [artist]);
 
+    const numConvertor = (n) => {
+        const num = String(n);
+        const dividor = num.length % 3;
+        let str = "";
+
+        for (let i = num.length - 1; i >= 0; i--) {
+            str = num[i] + str;
+            if (i && i % 3 === dividor) str = "," + str;
+        }
+
+        return str;
+    };
+
     console.log(artistInfo);
 
     return (
-        <div>
+        <>
             {loading ? (
-                <h1>Now Loading...</h1>
+                <Loading />
             ) : (
-                <div>
+                <>
                     <img
-                        src={artistInfo.artist.image[2]["#text"]}
-                        alt={artistInfo.artist.name}
+                        className="content__img"
+                        src={artistInfo.image[2]["#text"]}
+                        alt={artistInfo.name}
                     />
-                    <h2>{artistInfo.artist.name}</h2>
-                    <h5>Listeners : {artistInfo.artist.stats.listeners}</h5>
-                    <h5>Play Count : {artistInfo.artist.stats.playcount}</h5>
-                    <h5>
-                        Tag :
-                        {artistInfo.artist.tags.tag.map((t) => (
-                            <span key={shortid.generate()}>{t.name} </span>
+                    <h2 className="content__title">{artistInfo.name}</h2>
+                    <div className="content__detail">
+                        재생 횟수 | {numConvertor(artistInfo.stats.listeners)}
+                    </div>
+                    <div className="content__detail">
+                        &#10084; {numConvertor(artistInfo.stats.playcount)}
+                    </div>
+                    <div className="content__detail">
+                        Tag |
+                        {artistInfo.tags.tag.map((t, index) => (
+                            <span className="content__tag" key={index}>
+                                {t.name}{" "}
+                            </span>
                         ))}
-                    </h5>
-                    <p>
-                        {artistInfo.artist.bio.summary.length > 100
-                            ? artistInfo.artist.bio.summary.slice(0, 100) +
-                              "..."
-                            : artistInfo.artist.bio.summary}
+                    </div>
+                    <p className="content__summary">
+                        {artistInfo.bio.summary.length > 200
+                            ? artistInfo.bio.summary.slice(0, 200) + "... "
+                            : artistInfo.bio.summary}
+                        <span className="content__summary__extension">
+                            <a href={artistInfo.bio.links.link.href}>더보기</a>
+                        </span>
                     </p>
-                </div>
+                </>
             )}
-        </div>
+        </>
     );
 };
 

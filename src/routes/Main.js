@@ -36,7 +36,7 @@ const Main = () => {
     ));
 
     return (
-        <div>
+        <>
             {loading ? (
                 <Loading />
             ) : (
@@ -48,7 +48,7 @@ const Main = () => {
                     {homeChart}
                 </div>
             )}
-        </div>
+        </>
     );
 };
 

@@ -98,7 +98,7 @@ const Search = () => {
     };
 
     return (
-        <div>
+        <>
             {/* 검색 폼 */}
             <div>
                 <form onSubmit={onSubmit}>
@@ -214,7 +214,7 @@ const Search = () => {
                     </nav>
                 </>
             )}
-        </div>
+        </>
     );
 };
 

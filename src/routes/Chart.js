@@ -83,7 +83,7 @@ const Chart = () => {
     };
 
     return (
-        <div>
+        <>
             {loading ? (
                 <Loading />
             ) : (
@@ -173,7 +173,7 @@ const Chart = () => {
                     </nav>
                 </>
             )}
-        </div>
+        </>
     );
 };
 
