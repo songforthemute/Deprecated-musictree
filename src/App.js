@@ -6,6 +6,7 @@ import Main from "./routes/Main";
 import Search from "./routes/Search";
 import Chart from "./routes/Chart";
 import Nav from "./components/Nav";
+import Footer from "./components/Footer";
 
 const App = () => {
     return (
@@ -20,6 +21,7 @@ const App = () => {
                     <Route path="/" element={<Main />} />
                 </Routes>
             </div>
+            <Footer />
         </BrowserRouter>
     );
 };
