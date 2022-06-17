@@ -29,7 +29,10 @@ const Footer = () => {
             <div className="footer__scrolltop" onClick={onScrollTop}>
                 &uarr;
             </div>
-            <div>&copy; {new Date().getFullYear()} MusicTree. </div>
+            <div>
+                <span>&copy; {new Date().getFullYear()} MusicTree </span>
+                <a href="https://www.last.fm/">powered by AudioScrobbler.</a>
+            </div>
             <div className="footer__faq footer__faqBtn" onClick={toggleFaq}>
                 FAQ | 느리거나 잘 작동하지 않아요.
             </div>
@@ -45,7 +48,9 @@ const Footer = () => {
                     </div>
                 </div>
             )}
-            <div>Contact | {process.env.REACT_APP_CONTACT}</div>
+            <a href={`mailto:${process.env.REACT_APP_CONTACT}`}>
+                Contact | {process.env.REACT_APP_CONTACT}
+            </a>
         </footer>
     );
 };
