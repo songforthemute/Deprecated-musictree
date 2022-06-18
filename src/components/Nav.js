@@ -1,13 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import logo from "./logoOG.png";
 
 const Nav = () => {
     return (
-        <nav>
-            <ul className="nav">
-                <li className="nav__logo">
-                    <img alt="logo" src="#" />
-                </li>
+        <nav className="nav">
+            <div className="nav__logo">
+                <img alt="logo" src={logo} />
+            </div>
+            <ul className="nav__box">
                 <Link to="/">
                     <li className="nav__Btn">
                         <span className="material-symbols-outlined">home</span>
