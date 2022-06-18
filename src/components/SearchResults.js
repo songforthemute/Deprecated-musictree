@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const SearchResults = ({ track, artist, imgUrl, rank, idxlabel }) => {
     return (
-        <div className={idxlabel % 2 === 0 ? "result result__even" : "result"}>
+        <div className={idxlabel % 2 !== 0 ? "result result__even" : "result"}>
             {rank && (
                 <span className={rank <= 3 ? "homeChart__top3" : undefined}>
                     {rank}.{" "}

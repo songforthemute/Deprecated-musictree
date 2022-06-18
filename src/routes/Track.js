@@ -66,12 +66,14 @@ const Track = () => {
                 <Loading />
             ) : (
                 <>
-                    <div className="content__img">
-                        <img
-                            alt={track}
-                            src={trackInfo.album.image[3]["#text"]}
-                        />
-                    </div>
+                    {trackInfo.album && (
+                        <div className="content__img">
+                            <img
+                                alt={track}
+                                src={trackInfo.album.image[3]["#text"]}
+                            />
+                        </div>
+                    )}
                     <h2 className="content__title">
                         {track} ({durationConvertor(trackInfo.duration)}){" "}
                         <a
@@ -84,10 +86,12 @@ const Track = () => {
                         <div className="content__detail__header">아티스트</div>
                         {artist}
                     </div>
-                    <div className="content__detail">
-                        <div className="content__detail__header">앨범</div>'
-                        {trackInfo.album.title}'
-                    </div>
+                    {trackInfo.album && (
+                        <div className="content__detail">
+                            <div className="content__detail__header">앨범</div>'
+                            {trackInfo.album.title}'
+                        </div>
+                    )}
                     <div className="content__detail">
                         <div className="content__detail__header">재생 횟수</div>
                         {numConvertor(trackInfo.playcount)}회
