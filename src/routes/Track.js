@@ -73,7 +73,12 @@ const Track = () => {
                         />
                     </div>
                     <h2 className="content__title">
-                        {track} ({durationConvertor(trackInfo.duration)})
+                        {track} ({durationConvertor(trackInfo.duration)}){" "}
+                        <a
+                            href={`https://www.youtube.com/results?search_query=${artist}`}
+                        >
+                            <button className="content__play"></button>
+                        </a>
                     </h2>
                     <div className="content__detail">
                         <div className="content__detail__header">아티스트</div>
