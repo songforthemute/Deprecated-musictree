@@ -2,14 +2,16 @@ import React from "react";
 import { Link } from "react-router-dom";
 // import Proptypes from "proptypes";
 
-const HomeChart = ({ rank, track, artist, imgSrc }) => {
+const HomeChart = ({ rank, track, artist }) => {
     return (
-        <div>
-            <span>{rank}. </span>
+        <div className="homeChart__row">
+            <span className={rank <= 3 ? "homeChart__top3" : undefined}>
+                {rank}.{" "}
+            </span>
             <Link to={`/${artist}/${track}`}>
-                {/* <img src={imgSrc} alt={name} /> */}
                 <span>{track}</span>
             </Link>
+            {" - "}
             <Link to={`/${artist}`}>
                 <span>{artist}</span>
             </Link>

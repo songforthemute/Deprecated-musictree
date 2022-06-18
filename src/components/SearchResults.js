@@ -2,10 +2,14 @@ import React from "react";
 import Proptypes from "proptypes";
 import { Link } from "react-router-dom";
 
-const SearchResults = ({ track, artist, imgUrl, rank }) => {
+const SearchResults = ({ track, artist, imgUrl, rank, idxlabel }) => {
     return (
-        <div>
-            <span>{rank}. </span>
+        <div className={idxlabel % 2 === 0 ? "result result__even" : "result"}>
+            {rank && (
+                <span className={rank <= 3 ? "homeChart__top3" : undefined}>
+                    {rank}.{" "}
+                </span>
+            )}
             {track !== artist && (
                 <>
                     <Link to={`/${artist}/${track}`}>
@@ -18,8 +22,6 @@ const SearchResults = ({ track, artist, imgUrl, rank }) => {
                 <span>{artist}</span>
             </Link>
             {imgUrl && <img alt="cover" src={imgUrl} />}
-            <hr />
-            <br />
         </div>
     );
 };

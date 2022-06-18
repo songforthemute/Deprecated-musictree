@@ -66,34 +66,40 @@ const Track = () => {
                 <Loading />
             ) : (
                 <>
-                    <img
-                        className="content__img"
-                        alt={track}
-                        src={trackInfo.album.image[3]["#text"]}
-                    />
+                    <div className="content__img">
+                        <img
+                            alt={track}
+                            src={trackInfo.album.image[3]["#text"]}
+                        />
+                    </div>
                     <h2 className="content__title">
                         {track} ({durationConvertor(trackInfo.duration)})
                     </h2>
-                    <h5 className="content__detail">아티스트 : {artist}</h5>
                     <div className="content__detail">
-                        앨범 : '{trackInfo.album.title}'
+                        <div className="content__detail__header">아티스트</div>
+                        {artist}
                     </div>
                     <div className="content__detail">
-                        재생 횟수 : {numConvertor(trackInfo.playcount)} 회
+                        <div className="content__detail__header">앨범</div>'
+                        {trackInfo.album.title}'
                     </div>
                     <div className="content__detail">
-                        &#10084; {numConvertor(trackInfo.listeners)} 명
+                        <div className="content__detail__header">재생 횟수</div>
+                        {numConvertor(trackInfo.playcount)}회
                     </div>
-                    <br />
+                    <div className="content__detail">
+                        <div className="content__detail__header">&#10084;</div>
+                        {numConvertor(trackInfo.listeners)}명
+                    </div>
                     {trackInfo.wiki && (
                         <p className="content__summary">
                             {trackInfo.wiki.summary[0] !== "<" &&
-                            trackInfo.wiki.summary.length > 200
-                                ? trackInfo.wiki.summary.slice(0, 200)
+                            trackInfo.wiki.summary.length > 250
+                                ? trackInfo.wiki.summary.slice(0, 250) + " ... "
                                 : trackInfo.wiki.summary}
 
-                            <span className="content__summery__extension">
-                                <a href={trackInfo.url}>... 더보기</a>
+                            <span className="content__summary__a">
+                                <a href={trackInfo.url}>더보기</a>
                             </span>
                         </p>
                     )}
