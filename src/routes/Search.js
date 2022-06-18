@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Loading from "../components/Loading";
 import SearchResults from "../components/SearchResults";
+import PageController from "../components/PageControllor";
 
 // useEffect를 사용해보자. - useEffect는 디펜던시가 업데이트될때만 렌더를 도와준다.
 const Search = () => {
@@ -47,8 +48,6 @@ const Search = () => {
             });
 
             setLoading(false);
-            console.log("현재 페이지: ", page);
-            console.log("현재 검색단위수: ", inputs.limit);
         };
 
         if (inputs.keyword !== "" && inputs.option !== "none") getSearch();
@@ -67,99 +66,90 @@ const Search = () => {
         setBuffer({ ...buffer, [name]: value });
     };
 
-    // 페이지 컨트롤러
-    const onClickNext = () => {
-        if (page === meta.lastPage) {
-            alert("마지막 페이지입니다.");
-            return;
-        }
-        setPage(page + 1);
-    };
-    const onClickBefore = () => {
-        if (page === 1) {
-            alert("첫 페이지입니다.");
-            return;
-        }
-        setPage(page - 1);
-    };
-    const onClickFirst = () => {
-        if (page === 1) {
-            alert("첫 페이지입니다.");
-            return;
-        }
-        setPage(1);
-    };
-    const onClickLast = () => {
-        if (page === meta.lastPage) {
-            alert("마지막 페이지입니다.");
-            return;
-        }
-        setPage(meta.lastPage);
-    };
-
     return (
         <>
+            <div className="chart__title">찾아보기</div>
             {/* 검색 폼 */}
-            <div>
+            <div className="search__form">
                 <form onSubmit={onSubmit}>
-                    <label htmlFor="option">검색</label>
-                    <select
-                        name="option"
-                        id="option"
-                        onChange={onChangeBuffer}
-                        value={buffer.option}
-                    >
-                        <option key="none" value="none">
-                            - 검색 옵션 -
-                        </option>
-                        <option key="track" value="track">
-                            트랙명
-                        </option>
-                        <option key="artist" value="artist">
-                            아티스트명
-                        </option>
-                    </select>
-                    <select
-                        name="limit"
-                        onChange={onChangeBuffer}
-                        value={buffer.limit}
-                    >
-                        <option key="10" value="10">
-                            10개씩 보기
-                        </option>
-                        <option key="15" value="15">
-                            15개씩 보기
-                        </option>
-                        <option key="20" value="20">
-                            20개씩 보기
-                        </option>
-                        <option key="25" value="25">
-                            25개씩 보기
-                        </option>
-                        <option key="30" value="30">
-                            30개씩 보기
-                        </option>
-                    </select>
-                    <input
-                        type="text"
-                        name="keyword"
-                        value={buffer.keyword}
-                        onChange={onChangeBuffer}
-                        placeholder="검색어를 입력해주세요."
-                    />
-                    <input type="submit" value="&#128269;" />
+                    <div className="search__form__option">
+                        <label className="search__form__label" htmlFor="option">
+                            옵션
+                        </label>
+                        <select
+                            name="option"
+                            id="option"
+                            onChange={onChangeBuffer}
+                            value={buffer.option}
+                        >
+                            <option key="none" value="none">
+                                검색 옵션
+                            </option>
+                            <option key="track" value="track">
+                                트랙명
+                            </option>
+                            <option key="artist" value="artist">
+                                아티스트명
+                            </option>
+                        </select>
+                        <label
+                            className="search__form__label search__form__label2"
+                            htmlFor="renderCount"
+                        >
+                            보기
+                        </label>
+                        <select
+                            id="renderCount"
+                            name="limit"
+                            onChange={onChangeBuffer}
+                            value={buffer.limit}
+                        >
+                            <option key="10" value="10">
+                                10개씩 보기
+                            </option>
+                            <option key="15" value="15">
+                                15개씩 보기
+                            </option>
+                            <option key="20" value="20">
+                                20개씩 보기
+                            </option>
+                            <option key="25" value="25">
+                                25개씩 보기
+                            </option>
+                            <option key="30" value="30">
+                                30개씩 보기
+                            </option>
+                        </select>
+                    </div>
+                    <div className="search__input">
+                        <input
+                            className="search__keyword"
+                            type="text"
+                            name="keyword"
+                            value={buffer.keyword}
+                            onChange={onChangeBuffer}
+                            placeholder="검색어를 입력해주세요."
+                        />
+                        <input
+                            className="search__btn"
+                            type="submit"
+                            value="&#128269;"
+                        />
+                    </div>
                 </form>
             </div>
+            {/* 로딩 */}
             {loading ? (
                 inputs.option !== "none" && inputs.keyword.length ? (
-                    <Loading />
+                    <Loading /> // 검색로딩
                 ) : (
-                    <div>검색해주세요.</div>
+                    <div className="search__before">검색해주세요.</div> // 키워드만 입력시 로딩
                 )
             ) : (
                 <>
                     {/* 검색 결과 */}
-                    <div>
+                    <div className="search__body">
+                        {/* 간혹 서치인포의 데이터셋이 리미트 이상으로 저장되는 경우 초과렌더 방지 */}
                         {searchInfo.length > inputs.limit
                             ? searchInfo
                                   .slice(searchInfo.length - inputs.limit)
@@ -170,6 +160,7 @@ const Search = () => {
                                           track={info.name}
                                           imgUrl={null}
                                           rank={null}
+                                          idxlabel={index}
                                       />
                                   ))
                             : searchInfo.map((info, index) => (
@@ -179,39 +170,16 @@ const Search = () => {
                                       track={info.name}
                                       imgUrl={null}
                                       rank={null}
+                                      idxlabel={index}
                                   />
                               ))}
                     </div>
                     {/* 하단 네비게이터 */}
-                    <nav>
-                        <ul style={{ display: "flex" }}>
-                            <li onClick={onClickFirst}>
-                                <span className="material-symbols-outlined">
-                                    keyboard_double_arrow_left
-                                </span>
-                            </li>
-                            <li onClick={onClickBefore}>
-                                <span className="material-symbols-outlined">
-                                    navigate_before
-                                </span>
-                            </li>
-                            <li>
-                                <span>
-                                    {page} / {meta.lastPage}
-                                </span>
-                            </li>
-                            <li onClick={onClickNext}>
-                                <span className="material-symbols-outlined">
-                                    navigate_next
-                                </span>
-                            </li>
-                            <li onClick={onClickLast}>
-                                <span className="material-symbols-outlined">
-                                    keyboard_double_arrow_right
-                                </span>
-                            </li>
-                        </ul>
-                    </nav>
+                    <PageController
+                        page={page}
+                        setPage={setPage}
+                        lastPage={meta.lastPage}
+                    />
                 </>
             )}
         </>

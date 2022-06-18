@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import SearchResults from "../components/SearchResults";
 import Loading from "../components/Loading";
+import PageController from "../components/PageControllor";
 
 const Chart = () => {
     const [dataset, setDataset] = useState([]);
@@ -53,84 +54,61 @@ const Chart = () => {
     };
 
     // 페이지 컨트롤러
-    const onClickNext = () => {
-        if (page === meta.lastPage) {
-            alert("마지막 페이지입니다.");
-            return;
-        }
-        setPage((page) => page + 1);
-    };
-    const onClickBefore = () => {
-        if (page === 1) {
-            alert("첫 페이지입니다.");
-            return;
-        }
-        setPage((page) => page - 1);
-    };
-    const onClickFirst = () => {
-        if (page === 1) {
-            alert("첫 페이지입니다.");
-            return;
-        }
-        setPage(1);
-    };
-    const onClickLast = () => {
-        if (page === meta.lastPage) {
-            alert("마지막 페이지입니다.");
-            return;
-        }
-        setPage(meta.lastPage);
-    };
 
     return (
         <>
+            <div className="chart__title">인기 차트</div>
+            <div className="chart__form">
+                <label className="chart__label" htmlFor="option">
+                    옵션
+                </label>
+                <select
+                    className="chart__select"
+                    name="option"
+                    id="option"
+                    onChange={onChangeOption}
+                    value={option}
+                >
+                    <option key="track" value="track">
+                        트랙명
+                    </option>
+                    <option key="artist" value="artist">
+                        아티스트명
+                    </option>
+                </select>
+                <label className="chart__label chart__label2" htmlFor="country">
+                    국가
+                </label>
+                <select
+                    className="chart__select"
+                    name="country"
+                    id="country"
+                    onChange={onChangeCountry}
+                    value={country}
+                >
+                    <option key="Korea,+Republic+of" value="Korea,+Republic+of">
+                        대한민국
+                    </option>
+                    <option key="United+States" value="United+States">
+                        미국
+                    </option>
+                    <option key="United+Kingdom" value="United+Kingdom">
+                        영국
+                    </option>
+                    <option key="japan" value="japan">
+                        일본
+                    </option>
+                    <option key="spain" value="spain">
+                        스페인
+                    </option>
+                </select>
+            </div>
             {loading ? (
                 <Loading />
             ) : (
                 <>
-                    <div>
-                        <label htmlFor="option">검색</label>
-                        <select
-                            name="option"
-                            id="option"
-                            onChange={onChangeOption}
-                            value={option}
-                        >
-                            <option key="track" value="track">
-                                트랙명
-                            </option>
-                            <option key="artist" value="artist">
-                                아티스트명
-                            </option>
-                        </select>
-                        <label htmlFor="country">국가</label>
-                        <select
-                            name="country"
-                            id="country"
-                            onChange={onChangeCountry}
-                            value={country}
-                        >
-                            <option
-                                key="Korea,+Republic+of"
-                                value="Korea,+Republic+of"
-                            >
-                                한국
-                            </option>
-                            <option key="United+States" value="United+States">
-                                미국
-                            </option>
-                            <option key="United+Kingdom" value="United+Kingdom">
-                                영국
-                            </option>
-                            <option key="japan" value="japan">
-                                일본
-                            </option>
-                            <option key="spain" value="spain">
-                                스페인
-                            </option>
-                        </select>
-                    </div>
-                    <div>
+                    {/* 차트 */}
+                    <div className="chart__body">
                         {dataset.map((data, index) => (
                             <SearchResults
                                 key={index}
@@ -138,39 +116,16 @@ const Chart = () => {
                                 artist={data?.artist?.name ?? data.name}
                                 listeners={data}
                                 rank={(page - 1) * 20 + (index + 1)}
+                                idxlabel={index}
                             />
                         ))}
                     </div>
                     {/* 하단 네비게이터 */}
-                    <nav>
-                        <ul style={{ display: "flex" }}>
-                            <li onClick={onClickFirst}>
-                                <span className="material-symbols-outlined">
-                                    keyboard_double_arrow_left
-                                </span>
-                            </li>
-                            <li onClick={onClickBefore}>
-                                <span className="material-symbols-outlined">
-                                    navigate_before
-                                </span>
-                            </li>
-                            <li>
-                                <span>
-                                    {page} / {meta.lastPage}
-                                </span>
-                            </li>
-                            <li onClick={onClickNext}>
-                                <span className="material-symbols-outlined">
-                                    navigate_next
-                                </span>
-                            </li>
-                            <li onClick={onClickLast}>
-                                <span className="material-symbols-outlined">
-                                    keyboard_double_arrow_right
-                                </span>
-                            </li>
-                        </ul>
-                    </nav>
+                    <PageController
+                        page={page}
+                        setPage={setPage}
+                        lastPage={meta.lastPage}
+                    />
                 </>
             )}
         </>
