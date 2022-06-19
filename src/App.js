@@ -10,24 +10,19 @@ import Footer from "./components/Footer";
 
 const App = () => {
     return (
-        <BrowserRouter basename="/">
+        <BrowserRouter basename={process.env.PUBLIC_URL}>
             <Nav />
             <div className="main">
                 <div className="container">
                     <Routes>
+                        <Route path="/" element={<Main />} />
+                        <Route path="/search" element={<Search />} />
+                        <Route path="/chart" element={<Chart />} />
+                        <Route path="/artist/:artist" element={<Artist />} />
                         <Route
-                            exact
                             path="/artist/:artist/track/:track"
                             element={<Track />}
                         />
-                        <Route
-                            exact
-                            path="/artist/:artist"
-                            element={<Artist />}
-                        />
-                        <Route exact path="/chart" element={<Chart />} />
-                        <Route exact path="/search" element={<Search />} />
-                        <Route exact path="/" element={<Main />} />
                     </Routes>
                 </div>
             </div>

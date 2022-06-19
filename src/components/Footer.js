@@ -31,9 +31,7 @@ const Footer = () => {
             </div>
             <div>
                 <span>&copy; {new Date().getFullYear()} MusicTree </span>
-                <a target="_blank" href="https://www.last.fm/">
-                    powered by AudioScrobbler.
-                </a>
+                <a href="https://www.last.fm/">powered by AudioScrobbler.</a>
             </div>
             <div className="footer__faq footer__faqBtn" onClick={toggleFaq}>
                 FAQ | 느리거나 잘 작동하지 않아요.
