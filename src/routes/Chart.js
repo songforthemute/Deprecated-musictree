@@ -20,7 +20,7 @@ const Chart = () => {
             setLoading(true);
             const json = await (
                 await fetch(
-                    `http://ws.audioscrobbler.com/2.0/?method=geo.gettop${option}s&country=${country}&limit=20&page=${page}&api_key=${process.env.REACT_APP_KEY}&format=json`
+                    `https://ws.audioscrobbler.com/2.0/?method=geo.gettop${option}s&country=${country}&limit=20&page=${page}&api_key=${process.env.REACT_APP_KEY}&format=json`
                 )
             ).json();
             // 차트 데이터

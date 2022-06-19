@@ -11,7 +11,7 @@ const Track = () => {
         const getTrackInfo = async () => {
             const json = await (
                 await fetch(
-                    `http://ws.audioscrobbler.com/2.0/?method=track.getinfo&artist=${artist}&track=${track}&api_key=${process.env.REACT_APP_KEY}&format=json`
+                    `https://ws.audioscrobbler.com/2.0/?method=track.getinfo&artist=${artist}&track=${track}&api_key=${process.env.REACT_APP_KEY}&format=json`
                 )
             ).json();
 

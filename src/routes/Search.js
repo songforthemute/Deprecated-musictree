@@ -29,7 +29,7 @@ const Search = () => {
             setLoading(true);
             const json = await (
                 await fetch(
-                    `http://ws.audioscrobbler.com/2.0/?method=${inputs.option}.search&${inputs.option}=${inputs.keyword}&limit=${inputs.limit}&page=${page}&api_key=${process.env.REACT_APP_KEY}&format=json`
+                    `https://ws.audioscrobbler.com/2.0/?method=${inputs.option}.search&${inputs.option}=${inputs.keyword}&limit=${inputs.limit}&page=${page}&api_key=${process.env.REACT_APP_KEY}&format=json`
                 )
             ).json();
 

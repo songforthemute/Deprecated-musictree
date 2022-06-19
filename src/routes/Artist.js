@@ -11,12 +11,13 @@ const Artist = () => {
         const getArtistInfo = async () => {
             const json = await (
                 await fetch(
-                    `http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${artist}&api_key=${process.env.REACT_APP_KEY}&format=json`
+                    `https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${artist}&api_key=${process.env.REACT_APP_KEY}&format=json`
                 )
             ).json();
 
             setArtistInfo(json.artist);
             setLoading(false);
+            console.log(json);
         };
 
         getArtistInfo();
