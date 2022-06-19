@@ -12,13 +12,13 @@ const SearchResults = ({ track, artist, imgUrl, rank, idxlabel }) => {
             )}
             {track !== artist && (
                 <>
-                    <Link to={`/${artist}/${track}`}>
+                    <Link to={`/artist/${artist}/track/${track}`}>
                         <span>{track}</span>
                     </Link>
                     <span> - </span>
                 </>
             )}
-            <Link to={`/${artist}`}>
+            <Link to={`/artist/${artist}`}>
                 <span>{artist}</span>
             </Link>
             {imgUrl && <img alt="cover" src={imgUrl} />}
