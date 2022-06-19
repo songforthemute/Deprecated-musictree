@@ -4,7 +4,7 @@
 
 Music Infomation Application을 목표로 계획했으며, 모바일과 데스크톱의 두가지 반응형
 
-프로젝트 링크 : [https://songforthemute.github.io/musictree/]("https://songforthemute.github.io/musictree/")
+프로젝트 링크 : [https://songforthemute.github.io/music-app/]("https://songforthemute.github.io/music-app/")
 
 미디엄 블로그 링크 : [https://medium.com/@songforthemute]("https://medium.com/@songforthemute")
 
