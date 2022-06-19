@@ -15,14 +15,15 @@ const App = () => {
             <div className="main">
                 <div className="container">
                     <Routes>
-                        <Route path="/" element={<Main />} />
-                        <Route path="/search" element={<Search />} />
-                        <Route path="/chart" element={<Chart />} />
-                        <Route path="/artist/:artist" element={<Artist />} />
+                        <Route exact path="/:artist" element={<Artist />} />
                         <Route
-                            path="/artist/:artist/track/:track"
+                            exact
+                            path="/:artist/:track"
                             element={<Track />}
                         />
+                        <Route exact path="/chart" element={<Chart />} />
+                        <Route exact path="/search" element={<Search />} />
+                        <Route exact path="/" element={<Main />} />
                     </Routes>
                 </div>
             </div>
