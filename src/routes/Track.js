@@ -22,8 +22,6 @@ const Track = () => {
         getTrackInfo();
     }, [artist, track]);
 
-    console.log("trackInfo: ", trackInfo);
-
     const durationConvertor = (d) => {
         let min = Math.round(d / 1000 / 60);
         let sec = (d / 1000) % 60;

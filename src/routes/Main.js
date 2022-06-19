@@ -21,8 +21,6 @@ const Main = () => {
         getTopTrack();
     }, []);
 
-    console.log(mainChart);
-
     // 루트 페이지 차트 top10 컴포넌트
     const homeChart = mainChart.map((track, index) => (
         <HomeChart

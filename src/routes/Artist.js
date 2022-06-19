@@ -17,7 +17,6 @@ const Artist = () => {
 
             setArtistInfo(json.artist);
             setLoading(false);
-            console.log(json);
         };
 
         getArtistInfo();
@@ -35,8 +34,6 @@ const Artist = () => {
 
         return str;
     };
-
-    console.log(artistInfo);
 
     return (
         <>

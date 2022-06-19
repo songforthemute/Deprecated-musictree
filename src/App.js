@@ -10,17 +10,17 @@ import Footer from "./components/Footer";
 
 const App = () => {
     return (
-        <BrowserRouter>
+        <BrowserRouter basename="/">
             <Nav />
             <div className="main">
                 <div className="container">
                     <Routes>
-                        <Route exact path="/:artist" element={<Artist />} />
                         <Route
                             exact
                             path="/:artist/:track"
                             element={<Track />}
                         />
+                        <Route exact path="/:artist" element={<Artist />} />
                         <Route exact path="/chart" element={<Chart />} />
                         <Route exact path="/search" element={<Search />} />
                         <Route exact path="/" element={<Main />} />

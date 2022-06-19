@@ -53,8 +53,6 @@ const Chart = () => {
         setPage(1);
     };
 
-    // 페이지 컨트롤러
-
     return (
         <>
             <div className="chart__title">인기 차트</div>
