@@ -8,11 +8,11 @@ const HomeChart = ({ rank, track, artist }) => {
             <span className={rank <= 3 ? "homeChart__top3" : undefined}>
                 {rank}.{" "}
             </span>
-            <Link to={`/${artist}/${track}`}>
+            <Link to={`/artist/${artist}/track/${track}`}>
                 <span>{track}</span>
             </Link>
             {" - "}
-            <Link to={`/${artist}`}>
+            <Link to={`/aritst/${artist}`}>
                 <span>{artist}</span>
             </Link>
             <br />

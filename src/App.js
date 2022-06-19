@@ -17,10 +17,14 @@ const App = () => {
                     <Routes>
                         <Route
                             exact
-                            path="/:artist/:track"
+                            path="/artist/:artist/track/:track"
                             element={<Track />}
                         />
-                        <Route exact path="/:artist" element={<Artist />} />
+                        <Route
+                            exact
+                            path="/artist/:artist"
+                            element={<Artist />}
+                        />
                         <Route exact path="/chart" element={<Chart />} />
                         <Route exact path="/search" element={<Search />} />
                         <Route exact path="/" element={<Main />} />
