@@ -1,6 +1,5 @@
 {
     "name": "musictree",
-    "author": "@songforthemute",
     "version": "0.1.0",
     "homepage": "https://songforthemute.github.io/music-app/",
     "private": false,
@@ -13,7 +12,8 @@
         "react-dom": "^18.1.0",
         "react-router-dom": "^6.3.0",
         "react-scripts": "5.0.1",
-        "web-vitals": "^2.1.4"
+        "web-vitals": "^2.1.4",
+        "gh-pages": "^4.0.0"
     },
     "scripts": {
         "start": "react-scripts start",
@@ -39,8 +39,5 @@
             "last 1 firefox version",
             "last 1 safari version"
         ]
-    },
-    "devDependencies": {
-        "gh-pages": "^4.0.0"
     }
 }
