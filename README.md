@@ -8,6 +8,8 @@ Music Infomation Application을 목표로 계획했으며, 모바일과 데스�
 
 미디엄 블로그 링크 : [https://medium.com/@songforthemute]("https://medium.com/@songforthemute")
 
+powered by : ["https://www.last.fm"]("http://www.last.fm")
+
 ---
 
 ## 목차
